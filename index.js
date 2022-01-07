@@ -1,13 +1,13 @@
-const express = require('express');
+const people = require('./db/people-db');
+const express = require('express')
 const app = express();
-const port = process.env.PORT || port;
-const www = process.env.WWW || './';
+const port = process.env.PORT || 3000;
 
-app.use(express.static(www));
+people.insertPeople();
 
-console.log(`serving ${www}`);
+app.get('/', (req, resp) => {
+    const people = people.selectPeoples();
+    resp.send('./index.html', {people})
+})
 
-app.get('*', (req, res) => {
-    res.sendFile(`index.html`, { root: www });
-});
 app.listen(port, () => console.log(`listening on http://localhost:${port}`));
